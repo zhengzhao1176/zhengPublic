@@ -7,9 +7,10 @@ reports/
 junit.xml
 *.tsbuildinfo
 
-# Prisma SQLite databases
-prisma/*.db
-prisma/*.db-journal
+# Prisma SQLite — 主 .db 入库（方便 clone 即用）；只忽略运行时附属文件
+*.db-journal
+*.db-wal
+*.db-shm
 
 # Playwright persistent profile
 .playwright-profile/*

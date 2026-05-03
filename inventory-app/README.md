@@ -4,19 +4,31 @@ A web-based inventory management system built per the spec at `/Users/apple/Desk
 
 **Stack**: Next.js 15 (App Router) + tRPC v11 + Prisma + SQLite + TypeScript + Antd + Vitest + Playwright (CLI-style E2E).
 
-## Quick start
+## Quick start (克隆即用 — DB 已预 seed 入库)
 
 ```bash
 # 1. install
 pnpm install
 
-# 2. initialize DB
-pnpm prisma db push --skip-generate
-pnpm db:seed
+# 2. 生成 prisma client 类型（不动 DB；prisma/dev.db 仓库自带）
+pnpm prisma generate
 
 # 3. dev server
 pnpm dev
 # open http://localhost:3000 → /login (admin / admin123)
+```
+
+### 想从空库重建？
+
+```bash
+pnpm db:reset                # drop → push → seed（重置 dev.db）
+```
+
+### 想清空 test 库（E2E 用）？
+
+```bash
+DATABASE_URL=file:./test-e2e.db pnpm prisma db push --skip-generate --force-reset
+DATABASE_URL=file:./test-e2e.db NODE_ENV=test pnpm db:seed
 ```
 
 ## E2E (browser automation, playwright-cli style)

@@ -64,17 +64,20 @@ t3/
 
 ---
 
-## 一句话上手
+## 一句话上手（克隆即用）
+
+仓库带了**预先初始化好的 SQLite 数据库**（`inventory-app/prisma/dev.db` + `inventory-app/test-e2e.db`），admin 账号与演示数据已 seed，下载即用：
 
 ```bash
-cd inventory-app
+git clone https://github.com/zhengzhao1176/zhengPublic.git t3
+cd t3/inventory-app
 pnpm install
-pnpm prisma generate
-pnpm prisma db push --skip-generate
-pnpm db:seed
+pnpm prisma generate         # 仅生成 @prisma/client 类型，不动 DB
 pnpm dev                     # http://localhost:3000 → /login
                              # admin / admin123
 ```
+
+如果想从空库重建：`pnpm db:reset`（drop → push → seed）。
 
 完整跑测命令见 `inventory-app/README.md`。
 
