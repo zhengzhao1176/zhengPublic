@@ -1,0 +1,120 @@
+// This file is the only authoritative source of the DB structure.
+// Maintained by: schema-agent. Read-only for everyone else.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  username     String   @unique
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  products    Product[]
+}
+
+model Supplier {
+  id        Int             @id @default(autoincrement())
+  name      String          @unique
+  contact   String?
+  address   String?
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  products  Product[]
+  purchases PurchaseOrder[]
+}
+
+model Product {
+  id          Int             @id @default(autoincrement())
+  code        String          @unique
+  name        String
+  categoryId  Int
+  category    Category        @relation(fields: [categoryId], references: [id])
+  description String?
+  costPrice   Float
+  sellPrice   Float
+  quantity    Int
+  unit        String
+  supplierId  Int
+  supplier    Supplier        @relation(fields: [supplierId], references: [id])
+  minStock    Int
+  maxStock    Int
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  purchases   PurchaseOrder[]
+  sales       SalesOrder[]
+
+  @@index([code])
+  @@index([categoryId])
+  @@index([supplierId])
+}
+
+model PurchaseOrder {
+  id           Int       @id @default(autoincrement())
+  orderNo      String    @unique
+  productId    Int
+  product      Product   @relation(fields: [productId], references: [id])
+  quantity     Int
+  costPrice    Float
+  totalAmount  Float
+  supplierId   Int
+  supplier     Supplier  @relation(fields: [supplierId], references: [id])
+  purchaser    String
+  remark       String?
+  status       String    @default("DRAFT")
+  purchaseDate DateTime
+  confirmedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([orderNo])
+  @@index([purchaseDate])
+  @@index([status])
+}
+
+model SalesOrder {
+  id          Int       @id @default(autoincrement())
+  orderNo     String    @unique
+  productId   Int
+  product     Product   @relation(fields: [productId], references: [id])
+  quantity    Int
+  sellPrice   Float
+  totalAmount Float
+  customer    String
+  shipper     String
+  remark      String?
+  status      String    @default("DRAFT")
+  salesDate   DateTime
+  confirmedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([orderNo])
+  @@index([salesDate])
+  @@index([status])
+}
+
+model StockLog {
+  id        Int      @id @default(autoincrement())
+  productId Int
+  delta     Int
+  reason    String
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
+}

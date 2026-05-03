@@ -1,0 +1,22 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "packageManager": "pnpm",
+  "testRunner": "vitest",
+  "coverageAnalysis": "perTest",
+  "checkers": ["typescript"],
+  "tsconfigFile": "tsconfig.json",
+  "mutate": [
+    "src/server/routers/**/*.ts",
+    "src/lib/order-no.ts",
+    "!src/server/routers/_app.ts"
+  ],
+  "thresholds": {
+    "high": 95,
+    "low": 85,
+    "break": 80
+  },
+  "reporters": ["progress", "html", "json"],
+  "htmlReporter": {
+    "fileName": "reports/mutation/index.html"
+  }
+}

@@ -1,0 +1,56 @@
+# Node
+node_modules/
+.pnpm-store/
+
+# Next.js
+.next/
+out/
+dist/
+
+# Coverage / Reports
+coverage/
+reports/
+junit.xml
+*.tsbuildinfo
+
+# Prisma SQLite databases (生成的，不进版本)
+prisma/*.db
+prisma/*.db-journal
+inventory-app/prisma/*.db
+inventory-app/prisma/*.db-journal
+inventory-app/test-e2e.db
+inventory-app/test-e2e.db-journal
+
+# Playwright 持久化 profile（用户态，每个开发者本地）
+.playwright-profile/*
+!.playwright-profile/.gitkeep
+.tmp-playwright-profile/
+
+# Env
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Editor
+.vscode/
+.idea/
+.DS_Store
+.cursor/
+.claude/
+*.swp
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 临时
+/tmp/
+*.tmp
+
+# 重置过的 issue（已解决的可以保留作为历史）
+inventory-app/issues/*.RESOLVED.md.bak
